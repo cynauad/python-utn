@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>connector &mdash; documentación de Proyecto_final-UTN - 0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=6fcc102b"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=d190bf04"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto_final-UTN
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Instalación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">controller module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">connector module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../valid.html">valid module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoradores.html">decoradores module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../observador_model.html">observador_model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../observador_vista.html">observador_vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client.html">client module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto_final-UTN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">connector</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para connector</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">connector.py:</span>
+<span class="sd">    Se definen las conexiones a bases de datos y creacion de tablas.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">peewee</span> <span class="kn">import</span> <span class="n">SqliteDatabase</span><span class="p">,</span> <span class="n">PostgresqlDatabase</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">AutoField</span>
+<span class="kn">from</span> <span class="nn">peewee</span> <span class="kn">import</span> <span class="n">IntegerField</span><span class="p">,</span> <span class="n">CharField</span><span class="p">,</span> <span class="n">DateTimeField</span><span class="p">,</span> <span class="n">TimeField</span>
+
+
+<span class="c1"># --------- LEER:   está por defecto usar Sqlit3. -----------</span>
+
+
+<span class="n">default</span> <span class="o">=</span> <span class="n">SqliteDatabase</span><span class="p">(</span><span class="s2">&quot;base_quirurgica_sqlite.db&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="select_database">
+<a class="viewcode-back" href="../connector.html#connector.select_database">[documentos]</a>
+<span class="k">def</span> <span class="nf">select_database</span><span class="p">(</span><span class="n">db</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Permite setear la base de datos seleccionada.</span>
+<span class="sd">    Actualmente, se setea por defecto Sqlite3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">default</span>
+    <span class="k">if</span> <span class="n">db</span> <span class="o">==</span> <span class="s2">&quot;PostgreSQL&quot;</span><span class="p">:</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="n">PostgresqlDatabase</span><span class="p">(</span><span class="s1">&#39;baseQ_postgres&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span>
+                                     <span class="n">password</span><span class="o">=</span><span class="s1">&#39;postgres&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+                                     <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;conectado a Sqlite&quot;</span><span class="p">)</span></div>
+
+        <span class="c1"># default = SqliteDatabase(&#39;base_quirurgica_sqlite.db&#39;)</span>
+
+
+<div class="viewcode-block" id="BaseModel">
+<a class="viewcode-back" href="../connector.html#connector.BaseModel">[documentos]</a>
+<span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="n">Model</span><span class="p">,):</span>              <span class="c1"># crea la base</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Se crea la base&quot;&quot;&quot;</span>   
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">default</span>     <span class="c1"># se selecciona en pantalla</span></div>
+
+
+
+<div class="viewcode-block" id="Cirugias">
+<a class="viewcode-back" href="../connector.html#connector.Cirugias">[documentos]</a>
+<span class="k">class</span> <span class="nc">Cirugias</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>             <span class="c1"># crea la tabla</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Se crea la tabla, con los siguientes campos:&quot;&quot;&quot;</span> 
+    <span class="n">id_cx</span> <span class="o">=</span> <span class="n">AutoField</span><span class="p">()</span>
+    <span class="n">id_pac</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">surgeon</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">procedure</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">hour</span> <span class="o">=</span> <span class="n">TimeField</span><span class="p">()</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="n">IntegerField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s2">&quot;Cx de &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">procedure</span><span class="o">+</span><span class="s2">&quot; para el paciente &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;, con fecha: &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="o">+</span><span class="s2">&quot; y cirujano: &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">surgeon</span></div>
+
+
+
+<div class="viewcode-block" id="LogObserver1">
+<a class="viewcode-back" href="../connector.html#connector.LogObserver1">[documentos]</a>
+<span class="k">class</span> <span class="nc">LogObserver1</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Se crea la tabla para el registro del observador de la base de datos:&quot;&quot;&quot;</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">motivo</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">tipo_base</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="LogObserver2">
+<a class="viewcode-back" href="../connector.html#connector.LogObserver2">[documentos]</a>
+<span class="k">class</span> <span class="nc">LogObserver2</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Se crea la tabla para el registro del observador del modelo:&quot;&quot;&quot;</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">metodo</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">identificador</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">CharField</span><span class="p">()</span></div>
+
+
+
+<span class="n">default</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="n">default</span><span class="o">.</span><span class="n">create_tables</span><span class="p">([</span><span class="n">Cirugias</span><span class="p">,</span> <span class="n">LogObserver1</span><span class="p">,</span> <span class="n">LogObserver2</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Cynthia Auad.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

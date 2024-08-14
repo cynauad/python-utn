@@ -1,0 +1,7 @@
+observador\_model module
+========================
+
+.. automodule:: observador_model
+   :members:
+   :undoc-members:
+   :show-inheritance:

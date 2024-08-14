@@ -1,0 +1,47 @@
+2024-07-08 19:16:53.013756: Se ha realizado la modificaci�n de un registro de la base de datos
+2024-07-08 19:17:47.595428: Se ha realizado el alta de un nuevo registro
+2024-07-08 19:18:09.425074: Se ha realizado la eliminaci�n de un registro
+2024-07-08 19:22:59.431150: Se ha realizado el alta de un nuevo registro
+2024-07-11 21:19:24.596453: Se ha realizado la
+                    modificaci�n de un registro de la base de datos,
+                       con id = 7
+2024-07-11 21:26:53.514260: Se ha realizado la
+                    modificaci�n del registro con id = 7
+2024-07-18 19:34:12.197425: Evento registrado: "guardar". ID = 7 se ha modificado con los
+                    datos = ('3457', 'Lorena', 'Carlos', 'cirugia cardiaca', '11/07/2024', '8:00', '250')
+2024-07-18 19:35:06.177445: Evento registrado: "borrar". El ID = 6 se ha eliminado
+2024-07-18 19:36:18.659284: Evento registrado: "alta". Datos: ('215635', 'Juan Pablo', 'Dario', 'asv', '31/07/2024', '10:0', '120')
+2024-07-22 21:06:53.183346: Evento registrado: "alta". Datos: ('12356', 'Gabriel P', 'Andrea M', 'cirugia ocular', '22/07/2024', '0:0', '')
+2024-07-22 21:09:55.278948: Evento registrado: "borrar". El ID = 12 se ha eliminado
+2024-07-22 21:10:23.368791: Evento registrado: "alta". Datos: ('12356', 'Gabriel P', 'Andrea M', 'cirugia ocular', '31/07/2024', '11:0', '')
+2024-07-22 21:21:34.942727: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-22 21:23:29.535194: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-22 21:50:02.310276: Evento registrado: "borrar". El ID = 14 se ha eliminado
+2024-07-22 21:52:40.779349: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-22 22:19:09.601080: Evento registrado: "alta". Datos: ('1112', 'test', 'test', '', '22/07/2024', '0:0', '')
+2024-07-22 22:28:54.524941: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-23 20:24:58.703381: Evento registrado: "alta". Datos: ('111133', 'hgk', 'kjh', '', '23/07/2024', '0:0', '')
+2024-07-23 20:25:17.865302: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-23 20:36:53.511885: Evento registrado: "alta". Datos: ('33333', 'test observ', 'test', '', '23/07/2024', '0:0', '')
+2024-07-23 20:37:07.818850: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-23 21:06:14.450388: Evento registrado: "alta". Datos: ('11111', 'Test obser', 'Test', 'Test', '23/07/2024', '0:0', '')
+2024-07-23 23:29:09.560411: Evento registrado: "alta". Datos: ('1562', 'gg', 'ss', '', '23/07/2024', '0:0', '')
+2024-07-24 08:53:42.246698: Evento registrado: "alta". Datos: ('5456', 'tt', 'tt', 'tt', '22/08/2024', '15:0', '15')
+2024-07-24 08:53:50.436230: Evento registrado: "borrar". El ID = 14 se ha eliminado
+2024-07-30 22:56:42.148002: Evento registrado: "borrar". El ID = 15 se ha eliminado
+2024-07-30 23:12:01.437936: Evento registrado: "alta". Datos: ('2222', 'nuevo test', 'test', 'nuevo', '30/07/2024', '15:15', '25')
+2024-07-30 23:15:52.230833: Evento registrado: "borrar". El ID = 14 se ha eliminado
+2024-07-30 23:18:21.849322: Evento registrado: "alta". Datos: ('32466', 'Cynthia D', 'Cynthia', 'Cirugia', '30/07/2024', '0:0', '')
+2024-07-30 23:19:37.824400: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-30 23:21:21.303695: Evento registrado: "borrar". El ID = 14 se ha eliminado
+2024-07-30 23:24:21.612977: Evento registrado: "alta". Datos: ('1111', 'tesyt', 'test', '', '30/07/2024', '0:0', '')
+2024-07-30 23:24:37.830636: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-30 23:26:17.322971: Evento registrado: "alta". Datos: ('1111', 'test', 'test', 'nuevo', '30/07/2024', '0:0', '')
+2024-07-30 23:26:42.030485: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-07-31 21:31:28.599430: Evento registrado: "alta". Datos: ('11111', 'prueba', 'test', 'test', '31/07/2024', '0:0', '')
+2024-07-31 21:31:52.899925: Evento registrado: "borrar". El ID = 13 se ha eliminado
+2024-08-01 20:54:50.440664: Evento registrado: "guardar". ID = 10 se ha modificado con los
+                    datos = ('676', 'Pepe R', 'Charlie J', 'RTU', '18/07/2024', '00:00', '12')
+2024-08-05 09:37:36.840488: Evento registrado: "alta". Datos: ('2222', 'test', 'test', 'test', '05/08/2024', '0:0', '')
+2024-08-05 18:50:29.546687: Evento registrado: "guardar". ID = 13 se ha modificado con los
+                    datos = ('2222', 'test', 'test', 'test1', '05/08/2024', '00:00', '')

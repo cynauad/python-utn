@@ -1,0 +1,7 @@
+observador\_vista module
+========================
+
+.. automodule:: observador_vista
+   :members:
+   :undoc-members:
+   :show-inheritance:

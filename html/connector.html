@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>connector module &mdash; documentación de Proyecto_final-UTN - 0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=6fcc102b"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/translations.js?v=d190bf04"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="valid module" href="valid.html" />
+    <link rel="prev" title="model module" href="model.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Proyecto_final-UTN
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Instalación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">controller module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vista.html">vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">model module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">connector module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#connector.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connector.BaseModel.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">BaseModel.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.BaseModel.id"><code class="docutils literal notranslate"><span class="pre">BaseModel.id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#connector.Cirugias"><code class="docutils literal notranslate"><span class="pre">Cirugias</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Cirugias.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.date"><code class="docutils literal notranslate"><span class="pre">Cirugias.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.duration"><code class="docutils literal notranslate"><span class="pre">Cirugias.duration</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.hour"><code class="docutils literal notranslate"><span class="pre">Cirugias.hour</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.id_cx"><code class="docutils literal notranslate"><span class="pre">Cirugias.id_cx</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.id_pac"><code class="docutils literal notranslate"><span class="pre">Cirugias.id_pac</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.name"><code class="docutils literal notranslate"><span class="pre">Cirugias.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.procedure"><code class="docutils literal notranslate"><span class="pre">Cirugias.procedure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.Cirugias.surgeon"><code class="docutils literal notranslate"><span class="pre">Cirugias.surgeon</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#connector.LogObserver1"><code class="docutils literal notranslate"><span class="pre">LogObserver1</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver1.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">LogObserver1.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver1.date"><code class="docutils literal notranslate"><span class="pre">LogObserver1.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver1.id"><code class="docutils literal notranslate"><span class="pre">LogObserver1.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver1.motivo"><code class="docutils literal notranslate"><span class="pre">LogObserver1.motivo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver1.tipo_base"><code class="docutils literal notranslate"><span class="pre">LogObserver1.tipo_base</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#connector.LogObserver2"><code class="docutils literal notranslate"><span class="pre">LogObserver2</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">LogObserver2.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.date"><code class="docutils literal notranslate"><span class="pre">LogObserver2.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.description"><code class="docutils literal notranslate"><span class="pre">LogObserver2.description</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.id"><code class="docutils literal notranslate"><span class="pre">LogObserver2.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.identificador"><code class="docutils literal notranslate"><span class="pre">LogObserver2.identificador</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#connector.LogObserver2.metodo"><code class="docutils literal notranslate"><span class="pre">LogObserver2.metodo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#connector.select_database"><code class="docutils literal notranslate"><span class="pre">select_database()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="valid.html">valid module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="decoradores.html">decoradores module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observador_model.html">observador_model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observador_vista.html">observador_vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="client.html">client module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Proyecto_final-UTN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">connector module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/connector.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-connector">
+<span id="connector-module"></span><h1>connector module<a class="headerlink" href="#module-connector" title="Link to this heading"></a></h1>
+<dl class="simple">
+<dt>connector.py:</dt><dd><p>Se definen las conexiones a bases de datos y creacion de tablas.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="connector.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">connector.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/connector.html#BaseModel"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#connector.BaseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Se crea la base</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.BaseModel.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#connector.BaseModel.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModelDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.BaseModel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">BaseModel.id&gt;</span></em><a class="headerlink" href="#connector.BaseModel.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="connector.Cirugias">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">connector.</span></span><span class="sig-name descname"><span class="pre">Cirugias</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/connector.html#Cirugias"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#connector.Cirugias" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#connector.BaseModel" title="connector.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>Se crea la tabla, con los siguientes campos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#connector.Cirugias.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">CirugiasDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DateTimeField:</span> <span class="pre">Cirugias.date&gt;</span></em><a class="headerlink" href="#connector.Cirugias.date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.duration">
+<span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntegerField:</span> <span class="pre">Cirugias.duration&gt;</span></em><a class="headerlink" href="#connector.Cirugias.duration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.hour">
+<span class="sig-name descname"><span class="pre">hour</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;TimeField:</span> <span class="pre">Cirugias.hour&gt;</span></em><a class="headerlink" href="#connector.Cirugias.hour" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.id_cx">
+<span class="sig-name descname"><span class="pre">id_cx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">Cirugias.id_cx&gt;</span></em><a class="headerlink" href="#connector.Cirugias.id_cx" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.id_pac">
+<span class="sig-name descname"><span class="pre">id_pac</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntegerField:</span> <span class="pre">Cirugias.id_pac&gt;</span></em><a class="headerlink" href="#connector.Cirugias.id_pac" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">Cirugias.name&gt;</span></em><a class="headerlink" href="#connector.Cirugias.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.procedure">
+<span class="sig-name descname"><span class="pre">procedure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">Cirugias.procedure&gt;</span></em><a class="headerlink" href="#connector.Cirugias.procedure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.Cirugias.surgeon">
+<span class="sig-name descname"><span class="pre">surgeon</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">Cirugias.surgeon&gt;</span></em><a class="headerlink" href="#connector.Cirugias.surgeon" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="connector.LogObserver1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">connector.</span></span><span class="sig-name descname"><span class="pre">LogObserver1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/connector.html#LogObserver1"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#connector.LogObserver1" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#connector.BaseModel" title="connector.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>Se crea la tabla para el registro del observador de la base de datos:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver1.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#connector.LogObserver1.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">LogObserver1DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver1.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DateTimeField:</span> <span class="pre">LogObserver1.date&gt;</span></em><a class="headerlink" href="#connector.LogObserver1.date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver1.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">LogObserver1.id&gt;</span></em><a class="headerlink" href="#connector.LogObserver1.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver1.motivo">
+<span class="sig-name descname"><span class="pre">motivo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">LogObserver1.motivo&gt;</span></em><a class="headerlink" href="#connector.LogObserver1.motivo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver1.tipo_base">
+<span class="sig-name descname"><span class="pre">tipo_base</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">LogObserver1.tipo_base&gt;</span></em><a class="headerlink" href="#connector.LogObserver1.tipo_base" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="connector.LogObserver2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">connector.</span></span><span class="sig-name descname"><span class="pre">LogObserver2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/connector.html#LogObserver2"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#connector.LogObserver2" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#connector.BaseModel" title="connector.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<p>Se crea la tabla para el registro del observador del modelo:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#connector.LogObserver2.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">LogObserver2DoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;DateTimeField:</span> <span class="pre">LogObserver2.date&gt;</span></em><a class="headerlink" href="#connector.LogObserver2.date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">LogObserver2.description&gt;</span></em><a class="headerlink" href="#connector.LogObserver2.description" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">LogObserver2.id&gt;</span></em><a class="headerlink" href="#connector.LogObserver2.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.identificador">
+<span class="sig-name descname"><span class="pre">identificador</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">LogObserver2.identificador&gt;</span></em><a class="headerlink" href="#connector.LogObserver2.identificador" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="connector.LogObserver2.metodo">
+<span class="sig-name descname"><span class="pre">metodo</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;CharField:</span> <span class="pre">LogObserver2.metodo&gt;</span></em><a class="headerlink" href="#connector.LogObserver2.metodo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="connector.select_database">
+<span class="sig-prename descclassname"><span class="pre">connector.</span></span><span class="sig-name descname"><span class="pre">select_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/connector.html#select_database"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#connector.select_database" title="Link to this definition"></a></dt>
+<dd><p>Permite setear la base de datos seleccionada.
+Actualmente, se setea por defecto Sqlite3.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="model.html" class="btn btn-neutral float-left" title="model module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="valid.html" class="btn btn-neutral float-right" title="valid module" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Cynthia Auad.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

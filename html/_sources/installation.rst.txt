@@ -1,0 +1,9 @@
+Instalación
+============
+
+
+El proyecto incluye un archivo ``requierement.txt`` para que contiene las librerías necesarias:
+
+.. code-block:: console
+
+   (.venv) $ install -r requierement.txt

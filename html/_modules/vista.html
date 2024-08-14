@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vista &mdash; documentación de Proyecto_final-UTN - 0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=6fcc102b"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=d190bf04"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Proyecto_final-UTN
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Instalación</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">controller module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../vista.html">vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../connector.html">connector module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../valid.html">valid module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../decoradores.html">decoradores module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../observador_model.html">observador_model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../observador_vista.html">observador_vista module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../server.html">server module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../client.html">client module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Proyecto_final-UTN</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">vista</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para vista</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">vista.py:</span>
+<span class="sd">    En el patron MVC, esta clase es la Vista con interfaz gráfica realizada en Tkinter</span>
+
+<span class="sd">    -	Contiene el menú superior desplegable.</span>
+<span class="sd">    -	Botones con las opciones de Alta, Baja, Modificar y Buscar.</span>
+<span class="sd">    -	Visualización de la base de datos en formato tabla (treeview).</span>
+<span class="sd">    -	Toma la solicitud de usuario y ejecuta la acción correspondiente.</span>
+<span class="sd">    -   Consulta al modelo y disponibiliza la información.</span>
+<span class="sd">    -   Implementa el patron observador para informar cambios en Alta y Baja</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Tk</span><span class="p">,</span> <span class="n">LabelFrame</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Button</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Menu</span><span class="p">,</span> <span class="n">Spinbox</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">from</span> <span class="nn">tkinter.colorchooser</span> <span class="kn">import</span> <span class="n">askcolor</span>
+<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="n">showinfo</span><span class="p">,</span> <span class="n">showwarning</span><span class="p">,</span> <span class="n">askyesno</span><span class="p">,</span> <span class="n">showerror</span>
+<span class="kn">from</span> <span class="nn">tkcalendar</span> <span class="kn">import</span> <span class="n">DateEntry</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">valid</span> <span class="kn">import</span> <span class="n">Validation</span>
+<span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">Abmc</span>
+<span class="kn">from</span> <span class="nn">observador_vista</span> <span class="kn">import</span> <span class="n">SujetoV</span>
+<span class="kn">from</span> <span class="nn">observador_model</span> <span class="kn">import</span> <span class="n">ConcreteObserverMetodo</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">server</span>
+
+
+<span class="c1"># ##############################################</span>
+<span class="c1">#        VISTA</span>
+<span class="c1"># ##############################################</span>
+
+<span class="c1"># VARIABLES GLOBALES</span>
+<span class="n">mi_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">theproc</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Vista">
+<a class="viewcode-back" href="../vista.html#vista.Vista">[documentos]</a>
+<span class="k">class</span> <span class="nc">Vista</span><span class="p">(</span><span class="n">SujetoV</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>    <span class="c1"># todo sucede dentro del constructor</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Configuración de la interfaz gráfica con Tkinter.</span>
+<span class="sd">        Se generan labels y entrys para el ingreso de datos.</span>
+<span class="sd">        Buttons que generan la accion de alta, baja, modificación y consulta.</span>
+<span class="sd">        Finalmente el treeview para mostrar la informacion almacenada.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">master</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="c1"># self.objeto_con = Abmc(&quot;SQLite3&quot;)</span>
+
+        <span class="n">base_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+        <span class="n">ruta</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="s2">&quot;icono.ico&quot;</span><span class="p">)</span>
+        <span class="c1"># print(ruta)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;CRUD para Agenda de Eventos Quirúrgicos&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">iconbitmap</span><span class="p">(</span><span class="n">ruta</span><span class="p">)</span>
+        <span class="c1"># master.iconbitmap(&#39;icono.ico&#39;)</span>
+
+        <span class="c1"># ----  Frame para SELECCION DE DDBB  --------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sel_db</span> <span class="o">=</span> <span class="n">LabelFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sel_db</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">borderwidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                           <span class="n">relief</span><span class="o">=</span><span class="s2">&quot;flat&quot;</span><span class="p">)</span>  <span class="c1"># quito los bordes del frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sel_db</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># uso pack</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_base</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sel_db</span><span class="p">,</span>
+                                 <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Seleccione la base de datos &gt;&gt;&#39;</span><span class="p">,</span>
+                                 <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#7FFFD4&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select_base</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">opciones</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SQLite3&#39;</span><span class="p">,</span> <span class="s1">&#39;PostgreSQL&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combobox</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Combobox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sel_db</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s2">&quot;readonly&quot;</span><span class="p">,</span>
+                                     <span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">opciones</span><span class="p">)</span>
+        <span class="c1"># self.combobox.current(0)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combobox</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># Vincular el evento de selección del combobox a la función</span>
+        <span class="c1"># obtener_seleccion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combobox</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;&lt;ComboboxSelected&gt;&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obtener_seleccion</span><span class="p">)</span>
+
+        <span class="c1"># ----  Frame para la entrada de datos  --------------------------</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Utilizo pack para definir los frames y luego grid dentro de cada</span>
+<span class="sd">        frame para ubicar las cajas entry y botones&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span> <span class="o">=</span> <span class="n">LabelFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Formulario&#39;</span><span class="p">,</span>
+                                       <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># uso pack</span>
+
+        <span class="c1"># nombre, centrado, color del texto, color de fondo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ingreso_datos</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Ingrese sus datos:&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">fg</span><span class="o">=</span><span class="s2">&quot;#ffffff&quot;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s2">&quot;#A569BD&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ingreso_datos</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s2">&quot;nswe&quot;</span><span class="p">)</span>
+        <span class="c1"># centrado en todas las direcciones</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_pac</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                            <span class="n">text</span><span class="o">=</span><span class="s2">&quot;ID Paciente&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id_pac</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                          <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Nombre y Apellido&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surgeon</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                             <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Cirujano&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">surgeon</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">procedure</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                               <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Procedimiento&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">procedure</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                          <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Fecha&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hour</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                          <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Horario [h:m]&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hour</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                              <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Duracion [min]&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="c1"># ------------VARIABLES---------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_name</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_procedure</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_surgeon</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_date</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_hour_</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_min</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_duration</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>  <span class="c1"># minutes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>   <span class="c1"># aparecian con un 0</span>
+        <span class="c1"># ----------------------------------------------------------</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_id</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                              <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_id</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_name</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                                <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_name</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_surgeon</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                                   <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_surgeon</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_surgeon</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_procedure</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                                     <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_procedure</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_procedure</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_date</span> <span class="o">=</span> <span class="n">DateEntry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">,</span>
+                                    <span class="n">date_pattern</span><span class="o">=</span><span class="s2">&quot;dd/mm/yyyy&quot;</span><span class="p">,</span>
+                                    <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_date</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_date</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="c1"># self.entry_hour = Entry(self.frame_grilla,</span>
+        <span class="c1">#                         textvariable=self.var_hour, width=20)</span>
+        <span class="c1"># self.entry_hour.grid(row=2, column=3)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla3</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla3</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_hour</span> <span class="o">=</span> <span class="n">Spinbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla3</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span>
+                                  <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_hour_</span><span class="p">,</span>
+                                  <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_hour</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_min</span> <span class="o">=</span> <span class="n">Spinbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla3</span><span class="p">,</span> <span class="n">from_</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="mi">59</span><span class="p">,</span>
+                                 <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_min</span><span class="p">,</span>
+                                 <span class="n">width</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_min</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_duration</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                                    <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">var_duration</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry_duration</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrys</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entry_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_surgeon</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">entry_procedure</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_hour</span><span class="p">,</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="n">entry_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry_duration</span><span class="p">]</span>
+        <span class="c1"># ----- otro frame para separar botones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+        <span class="c1"># ------------ Línea divisoria ---------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">bd</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="s1">&#39;sunken&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="c1"># ----------------------------------------------------------</span>
+
+        <span class="c1"># Crear el Frame para el Treeview</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_treeview</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_treeview</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># difino el treeview  --&gt; es una tabla</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Treeview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;columns&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="s2">&quot;col3&quot;</span><span class="p">,</span> <span class="s2">&quot;col4&quot;</span><span class="p">,</span> <span class="s2">&quot;col5&quot;</span><span class="p">,</span>
+                                <span class="s2">&quot;col6&quot;</span><span class="p">,</span> <span class="s2">&quot;col7&quot;</span><span class="p">,</span> <span class="s2">&quot;col8&quot;</span><span class="p">)</span>
+        <span class="c1"># lista de columnas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;#0&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col3&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col4&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col5&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col6&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col7&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">column</span><span class="p">(</span><span class="s2">&quot;col8&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">minwidth</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Agregar encabezados a las columnas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;#0&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;ID cirugia&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;ID paciente&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col2&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Nombre&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col3&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Cirujano&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col4&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Procedimiento&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col5&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Fecha&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col6&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Horario&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col7&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Duracion&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">heading</span><span class="p">(</span><span class="s2">&quot;col8&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Descripcion&quot;</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+        <span class="c1"># aca digo donde lo voy a motrar, en que posicion</span>
+        <span class="c1"># tree.grid(row=6, column=0, columnspan=4)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># ------------- botones dentro de alta ----------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span>
+                                 <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Alta&quot;</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">vista_alta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_surgeon</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_procedure</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_date</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_hour_</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_min</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">var_duration</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">),</span>
+                                 <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_cancel</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Cancelar&quot;</span><span class="p">,</span>
+                                   <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                   <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancelar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entrys</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_cancel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_cancel</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="c1"># ------------Botones otra grilla ---------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Baja&quot;</span><span class="p">,</span>
+                                   <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                   <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">vista_borrar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Modificar&quot;</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">vista_modificar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span>
+                                                      <span class="bp">self</span><span class="o">.</span><span class="n">entrys</span><span class="p">),</span>  <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_buscar</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Buscar&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                   <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">vista_consulta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_buscar</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_buscar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_mostrar</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Mostrar todo&quot;</span><span class="p">,</span>
+                                    <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_mostrar</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_mostrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+
+        <span class="c1"># El siguiente boton solo se habilita si presiono Modificar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_grilla</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;Guardar&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">vista_guardar</span><span class="p">(</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">var_id_pac</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_name</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">var_surgeon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_procedure</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">var_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_hour_</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">var_min</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">var_duration</span><span class="p">,</span>
+                                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entrys</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span><span class="o">.</span><span class="n">grid_forget</span><span class="p">()</span>  <span class="c1"># lo oculto</span>
+        <span class="c1"># ------------ MENU ---------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mostar tabla&quot;</span><span class="p">,</span>
+                                      <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exportar base&quot;</span><span class="p">,</span>
+                                      <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vista_export</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Salir&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">quit</span><span class="p">)</span>
+        <span class="c1"># estos en Archivo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Archivo&quot;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">menu_archivo</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_config</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_config</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Color fondo&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="c1"># estos en Configurar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Configuracion&quot;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">menu_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_srv</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_srv</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Iniciar SRV&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">try_connection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_srv</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Stop SRV&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stop_server</span><span class="p">)</span>
+        <span class="c1"># estos en Servidor</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;Servidor&quot;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">menu_srv</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">menubar</span><span class="p">)</span>  <span class="c1"># muestra el menu dise;ado</span>
+        <span class="c1"># ----------------------------------------------------------</span>
+        <span class="c1"># Al ejecutar el programa, consulto la BBDD y actualizo treeview</span>
+        <span class="c1"># self.actualizar_treeview(self.tree)</span>
+
+<div class="viewcode-block" id="Vista.try_connection">
+<a class="viewcode-back" href="../vista.html#vista.Vista.try_connection">[documentos]</a>
+    <span class="k">def</span> <span class="nf">try_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">if</span> <span class="n">theproc</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">theproc</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="o">.</span><span class="n">lanzar_server</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">server</span><span class="o">.</span><span class="n">lanzar_server</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Vista.stop_server">
+<a class="viewcode-back" href="../vista.html#vista.Vista.stop_server">[documentos]</a>
+    <span class="k">def</span> <span class="nf">stop_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">global</span> <span class="n">theproc</span>
+        <span class="k">if</span> <span class="n">theproc</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">theproc</span><span class="o">.</span><span class="n">kill</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;El servidor esta apagado&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.obtener_seleccion">
+<a class="viewcode-back" href="../vista.html#vista.Vista.obtener_seleccion">[documentos]</a>
+    <span class="k">def</span> <span class="nf">obtener_seleccion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Acción del combobox:</span>
+
+<span class="sd">        - Captura la selección de la base de datos con la que se quiere trabajar</span>
+
+<span class="sd">        :selección: Se puede elegir entre &lt;Sqlite3&gt; y &lt;Postgres&gt;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seleccion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">combobox</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>  <span class="c1"># capturar el valor del combobox</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">seleccion</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">seleccion</span> <span class="o">==</span> <span class="s2">&quot;SQLite3&quot;</span><span class="p">:</span>
+            <span class="c1"># Conectar a SQLite</span>
+            <span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;SQLite3&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span> <span class="o">=</span> <span class="n">Abmc</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+            <span class="c1"># select_database(database)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conectado a SQLite&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">seleccion</span> <span class="o">==</span> <span class="s2">&quot;PostgreSQL&quot;</span><span class="p">:</span>
+            <span class="c1"># Conectar a PostgreSQL</span>
+            <span class="n">database</span> <span class="o">=</span> <span class="s2">&quot;PostgreSQL&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span> <span class="o">=</span> <span class="n">Abmc</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conectado a PostgreSQL&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error: Base de datos no válida&quot;</span><span class="p">)</span>
+        <span class="c1"># self.objeto_con = Abmc(database)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notificar</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_cancel</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_buscar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_mostrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objeto_observador_metodo</span> <span class="o">=</span> <span class="n">ConcreteObserverMetodo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.color">
+<a class="viewcode-back" href="../vista.html#vista.Vista.color">[documentos]</a>
+    <span class="k">def</span> <span class="nf">color</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Permite seleccionar y cambiar el color de fondo de la aplicación&quot;&quot;&quot;</span>
+        <span class="n">color_fondo</span> <span class="o">=</span> <span class="n">askcolor</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;#00ff00&quot;</span><span class="p">,</span>
+                               <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Seleccione un color de fondo&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="n">color_fondo</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Vista.actualizar_treeview">
+<a class="viewcode-back" href="../vista.html#vista.Vista.actualizar_treeview">[documentos]</a>
+    <span class="k">def</span> <span class="nf">actualizar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeview</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Permite la consulta a la BBDD y actualiza la tabla, mostrando toda la</span>
+<span class="sd">        información almacenada&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limpiar_treeview</span><span class="p">(</span><span class="n">treeview</span><span class="p">)</span>
+
+        <span class="n">resultado</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">update_tree</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">fila</span> <span class="ow">in</span> <span class="n">resultado</span><span class="p">:</span>  <span class="c1"># print(fila)</span>
+            <span class="n">treeview</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">fila</span><span class="o">.</span><span class="n">id_cx</span><span class="p">,</span>
+                            <span class="n">values</span><span class="o">=</span><span class="p">(</span><span class="n">fila</span><span class="o">.</span><span class="n">id_pac</span><span class="p">,</span> <span class="n">fila</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">fila</span><span class="o">.</span><span class="n">surgeon</span><span class="p">,</span>
+                                    <span class="n">fila</span><span class="o">.</span><span class="n">procedure</span><span class="p">,</span> <span class="n">fila</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">fila</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+                                    <span class="n">fila</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">fila</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Vista.limpiar_treeview">
+<a class="viewcode-back" href="../vista.html#vista.Vista.limpiar_treeview">[documentos]</a>
+    <span class="k">def</span> <span class="nf">limpiar_treeview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treeview</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Limpia todos los elementos de la tabla&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">treeview</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="n">treeview</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.limpiar_entry">
+<a class="viewcode-back" href="../vista.html#vista.Vista.limpiar_entry">[documentos]</a>
+    <span class="k">def</span> <span class="nf">limpiar_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrys</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Limpia/borra el contenido de los entrys&quot;&quot;&quot;</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>     <span class="c1"># si tiene algo lo borro</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">entrys</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_alta">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_alta">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_alta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_pac</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">surgeon</span><span class="p">,</span> <span class="n">procedure</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">hour_</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span>
+                   <span class="n">duration</span><span class="p">,</span> <span class="n">tree</span><span class="p">,):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Alta&quot;:</span>
+
+<span class="sd">            - Captura la informacion ingresada en los entrys.</span>
+<span class="sd">            - Llama a la funcion de validación de algunos campos obligatorios.</span>
+<span class="sd">            - Llama a la funcion que guarda los elementos en la tabla.</span>
+<span class="sd">            - Finalmente, muestra la tabla actualizada&#39;&#39;&#39;</span>
+        <span class="n">hour</span> <span class="o">=</span> <span class="n">hour_</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">min</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">dato</span> <span class="o">=</span> <span class="p">(</span><span class="n">id_pac</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">surgeon</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                <span class="n">procedure</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">date</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">hour</span><span class="p">,</span> <span class="n">duration</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="n">dni</span> <span class="o">=</span> <span class="n">id_pac</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">nombre</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">medico</span> <span class="o">=</span> <span class="n">surgeon</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numero</span> <span class="o">=</span> <span class="n">Validation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">texto</span> <span class="o">=</span> <span class="n">Validation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numero</span><span class="o">.</span><span class="n">valid_numero</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;Debe completar el campo ID Paciente.</span><span class="se">\n</span>
+<span class="s2">                        Solo se permiten numeros&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">texto</span><span class="o">.</span><span class="n">valid_text</span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;El campo &quot;Nombre y Apellido&quot; no puede</span>
+<span class="s1">                         contener</span><span class="se">\n</span><span class="s1">números ni caracteres especiales&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">texto</span><span class="o">.</span><span class="n">valid_text</span><span class="p">(</span><span class="n">medico</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;El campo &quot;Cirujano&quot; no puede contener</span>
+<span class="s1">                        </span><span class="se">\n</span><span class="s1">números ni caracteres especiales&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">alta</span><span class="p">(</span><span class="n">dato</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+            <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;REGISTRO CORRECTO&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Registro de cirugia realizado correctamente&quot;</span><span class="p">)</span>
+            <span class="n">id_pac</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">name</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">procedure</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">surgeon</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">date</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">hour_</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="nb">min</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">duration</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_borrar">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_borrar">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_borrar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">var_id_pac</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Baja&quot;:</span>
+
+<span class="sd">            - Obtiene el elemento seleccionado del treeview, su id.</span>
+<span class="sd">            - Llama a la funcion de borrar de la BBDD</span>
+<span class="sd">            - Finalmente, muestra la tabla actualizada&#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">valor</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>  <span class="c1"># obtengo seleccion del treeview</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+            <span class="n">mi_id</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+            <span class="c1"># print(type(mi_id))</span>
+            <span class="k">if</span> <span class="n">askyesno</span><span class="p">(</span><span class="s2">&quot;Eliminar&quot;</span><span class="p">,</span> <span class="s2">&quot;Desea eliminar el registro?&quot;</span><span class="p">):</span>
+                <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Si&quot;</span><span class="p">,</span> <span class="s2">&quot;Se ha eliminado la cirugia programada&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">borrar</span><span class="p">(</span><span class="n">mi_id</span><span class="p">)</span>
+                <span class="n">tree</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+                <span class="n">var_id_pac</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="c1"># si NO -&gt; no hago nada</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s2">&quot;Debe seleccionar un elemento a borrar&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_consulta">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_consulta">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_consulta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_id_pac</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Buscar&quot;:</span>
+
+<span class="sd">            - Se selecciona un elemento del treeview y se realiza la búsqueda.</span>
+<span class="sd">            - Llama a la funcion de consulta de la BBDD.</span>
+<span class="sd">            - Mediante el manejo de excepciones, si el registro fue encontrado, actualiza el treeview, sino muestra un mensaje de error.&#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">id_pac</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">var_id_pac</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">id_pac</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">id_pac</span><span class="p">))</span>
+            <span class="c1"># data = (id_pac,)</span>
+            <span class="c1"># print(data)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">resultado</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">consulta</span><span class="p">(</span><span class="n">id_pac</span><span class="p">)</span>
+            <span class="c1"># if resultado:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">resultado</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">limpiar_treeview</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+                <span class="n">tree</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">resultado</span><span class="o">.</span><span class="n">id_cx</span><span class="p">,</span>
+                            <span class="n">values</span><span class="o">=</span><span class="p">(</span><span class="n">resultado</span><span class="o">.</span><span class="n">id_pac</span><span class="p">,</span> <span class="n">resultado</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                    <span class="n">resultado</span><span class="o">.</span><span class="n">surgeon</span><span class="p">,</span> <span class="n">resultado</span><span class="o">.</span><span class="n">procedure</span><span class="p">,</span>
+                                    <span class="n">resultado</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">resultado</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span>
+                                    <span class="n">resultado</span><span class="o">.</span><span class="n">duration</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Consulta&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;No se encuentra el ID: </span><span class="si">{</span><span class="n">id_pac</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">var_id_pac</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">,</span> <span class="s2">&quot;No se ha seleccionado ningun ID Paciente&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.cancelar">
+<a class="viewcode-back" href="../vista.html#vista.Vista.cancelar">[documentos]</a>
+    <span class="k">def</span> <span class="nf">cancelar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrys</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Cancelar&quot;:</span>
+
+<span class="sd">            - Mensaje de consulta</span>
+<span class="sd">            - Resetea los entrys y los botones que se hayan ocultado</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">askyesno</span><span class="p">(</span><span class="s2">&quot;Cancelar&quot;</span><span class="p">,</span> <span class="s2">&quot;Desea cancelar?&quot;</span><span class="p">):</span>
+            <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;Si&quot;</span><span class="p">,</span> <span class="s2">&quot;No se realizo ningun cambio&quot;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>     <span class="c1"># si tiene algo lo borro</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span><span class="o">.</span><span class="n">grid_forget</span><span class="p">()</span>  <span class="c1"># lo oculto</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_modificar">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_modificar">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_modificar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">entrys</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Modificar&quot;:</span>
+
+<span class="sd">            - Se selecciona un elemento y captura el contenido</span>
+<span class="sd">            - Completa los entrys para realizar modificaciones</span>
+<span class="sd">            - Se bloquean algunos botones y se habilita el boton &quot;Guardar</span>
+<span class="sd">            - Mediante el manejo de excepciones se intenta guardar, sino muestra mensaje de error&quot;&#39;&#39;&#39;</span>
+        <span class="c1"># En esta funcion leo el evento seleccionado</span>
+        <span class="n">valor</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>  <span class="c1"># obtengo seleccion del treeview</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">valor</span><span class="p">)</span>
+        <span class="k">global</span> <span class="n">mi_id</span>
+        <span class="n">mi_id</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span>
+        <span class="n">mi_column</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>   <span class="c1"># lista de registro seleccionado</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mi_column</span><span class="p">)</span>
+        <span class="c1"># if mi_id == &#39;&#39;:                  # verifico que haya una seleccion</span>
+        <span class="c1">#     showwarning(&quot;Modificar&quot;,</span>
+        <span class="c1">#                 &quot;Debe seleccionar un elemento en la tabla.&quot;)</span>
+        <span class="c1"># else:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limpiar_entry</span><span class="p">(</span><span class="n">entrys</span><span class="p">)</span>
+            <span class="c1"># cambio estado de botones, los deshabilito</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;disable&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>  <span class="c1"># lo hago visible</span>
+            <span class="c1"># entry=[entry_id, entry_name, entry_surgeon, entry_procedure,</span>
+            <span class="c1">#       entry_date, entry_hour, entry_duration]</span>
+            <span class="c1"># capturo en entry el dato de la seleccion:</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">entrys</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mi_column</span><span class="p">[</span><span class="mi">6</span><span class="p">])</span>
+            <span class="c1"># Espera la accion de un boton -&gt; Guardar / Cancelar</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;Modificar&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Debe seleccionar un elemento en la tabla.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_guardar">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_guardar">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_guardar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_pac</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">surgeon</span><span class="p">,</span> <span class="n">procedure</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">hour_</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span>
+                      <span class="n">duration</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">entrys</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Acción del botón &quot;Guardar&quot;:</span>
+
+<span class="sd">            - Captura los cambios en los entrys.</span>
+<span class="sd">            - Llama a la funcion de validación de los campos.</span>
+<span class="sd">            - Llama a la funcion que guarda los elementos en la tabla.</span>
+<span class="sd">            - Finalmente, muestra la tabla actualizada</span>
+<span class="sd">            - Habilita nuevamente los botones deshabilitados&#39;&#39;&#39;</span>
+        <span class="n">hour</span> <span class="o">=</span> <span class="n">hour_</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;:&quot;</span><span class="o">+</span><span class="nb">min</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">dato</span> <span class="o">=</span> <span class="p">(</span><span class="n">id_pac</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">surgeon</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                <span class="n">procedure</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">date</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">hour</span><span class="p">,</span> <span class="n">duration</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mi_id</span><span class="p">)</span>
+        <span class="n">dni</span> <span class="o">=</span> <span class="n">id_pac</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">nombre</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">medico</span> <span class="o">=</span> <span class="n">surgeon</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">numero</span> <span class="o">=</span> <span class="n">Validation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">texto</span> <span class="o">=</span> <span class="n">Validation</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">numero</span><span class="o">.</span><span class="n">valid_numero</span><span class="p">(</span><span class="n">dni</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;&quot;Debe completar el campo ID Paciente.</span>
+<span class="s2">                        </span><span class="se">\n</span><span class="s2">Solo se permiten numeros&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">texto</span><span class="o">.</span><span class="n">valid_text</span><span class="p">(</span><span class="n">nombre</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;El campo &quot;Nombre y Apellido&quot; no puede</span>
+<span class="s1">                         contener</span><span class="se">\n</span><span class="s1">números ni caracteres especiales&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">texto</span><span class="o">.</span><span class="n">valid_text</span><span class="p">(</span><span class="n">medico</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">showwarning</span><span class="p">(</span><span class="s2">&quot;ERROR&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;El campo &quot;Cirujano&quot; no puede contener</span>
+<span class="s1">                        </span><span class="se">\n</span><span class="s1">números ni caracteres especiales&#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">guardar</span><span class="p">(</span><span class="n">dato</span><span class="p">,</span> <span class="n">mi_id</span><span class="p">)</span>
+            <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;REGISTRO CORRECTO&quot;</span><span class="p">,</span>
+                     <span class="s2">&quot;Registro de cirugia modificado correctamente&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limpiar_entry</span><span class="p">(</span><span class="n">entrys</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">actualizar_treeview</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_save</span><span class="o">.</span><span class="n">grid_forget</span><span class="p">()</span>  <span class="c1"># lo oculto</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_alta</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_borrar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_buscar</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">boton_edit</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span></div>
+
+
+<div class="viewcode-block" id="Vista.vista_export">
+<a class="viewcode-back" href="../vista.html#vista.Vista.vista_export">[documentos]</a>
+    <span class="k">def</span> <span class="nf">vista_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;&#39;Codigo para exportar a .txt, funciona correctamente.&#39;&#39;&#39;</span>
+        <span class="c1"># archivo = open(&#39;mi_base_qx.txt&#39;, &#39;w&#39;)</span>
+        <span class="c1"># archivo.write(&quot;Nueva alta de datos\n&quot;)</span>
+        <span class="c1"># resultado = datos.fetchall()</span>
+        <span class="c1"># archivo.write(&#39;lis=%s\n&#39;%resultado+&#39;\n&#39;)</span>
+        <span class="c1"># archivo.close()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objeto_con</span><span class="o">.</span><span class="n">export</span><span class="p">()</span>
+            <span class="n">showinfo</span><span class="p">(</span><span class="s2">&quot;EXPORTAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Se ha exportado el archivo correctamente&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">showerror</span><span class="p">(</span><span class="s2">&quot;EXPORTAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Ocurrió un error&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Cynthia Auad.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
