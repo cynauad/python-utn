@@ -1,6 +1,6 @@
 ## Proyecto final - Diplomatura en Python UTN!
 
-Este proyecto se basa en el desarrollo de un CRUD para agenda de Eventos Quirúrgicos, como trabajo final de la Diplomatura de Pyhton.
+Este proyecto se basa en el desarrollo de un "CRUD para agenda de Eventos Quirúrgicos", como trabajo final de la Diplomatura de Pyhton.
 
 Alumno: Cynthia Auad
 
